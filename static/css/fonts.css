@@ -1,0 +1,169 @@
+/* Adagio Serif */
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular.svg#Adagio_Serif-Regular') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black.svg#Adagio_Serif-Black') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: 900;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold.svg#Adagio_Serif-Bold') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: 800;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight.svg#Adagio_Serif-ExtraLight') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: 100;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy.svg#Adagio_Serif-Heavy') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: 700;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light.svg#Adagio_Serif-Light') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: 200;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium.svg#Adagio_Serif-Medium') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: 500;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular_italic.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular_italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular_italic.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular_italic.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif/Adagio_Serif-Regular_italic.svg#Adagio_Serif-Regular_italic') format('svg'); /* Legacy iOS */
+    font-style: italic;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black_italic.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black_italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black_italic.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black_italic.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Black/Adagio_Serif-Black_italic.svg#Adagio_Serif-Black_italic') format('svg'); /* Legacy iOS */
+    font-style: italic;
+    font-weight: 900;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold_italic.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold_italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold_italic.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold_italic.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Bold/Adagio_Serif-Bold_italic.svg#Adagio_Serif-Bold_italic') format('svg'); /* Legacy iOS */
+    font-style: italic;
+    font-weight: 800;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight_italic.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight_italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight_italic.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight_italic.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif ExtraLight/Adagio_Serif-ExtraLight_italic.svg#Adagio_Serif-ExtraLight_italic') format('svg'); /* Legacy iOS */
+    font-style: italic;
+    font-weight: 100;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy_italic.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy_italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy_italic.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy_italic.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Heavy/Adagio_Serif-Heavy_italic.svg#Adagio_Serif-Heavy_italic') format('svg'); /* Legacy iOS */
+    font-style: italic;
+    font-weight: 700;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light_italic.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light_italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light_italic.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light_italic.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Light/Adagio_Serif-Light_italic.svg#Adagio_Serif-Light_italic') format('svg'); /* Legacy iOS */
+    font-style: italic;
+    font-weight: 200;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Adagio_Serif';
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium_italic.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium_italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium_italic.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium_italic.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Adagio_Serif/Adagio_Serif Medium/Adagio_Serif-Medium_italic.svg#Adagio_Serif-Medium_italic') format('svg'); /* Legacy iOS */
+    font-style: italic;
+    font-weight: 500;
+    text-rendering: optimizeLegibility;
+}

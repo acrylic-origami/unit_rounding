@@ -1,0 +1,22 @@
+[
+{"p_sym": "Y", "p_name": "yotta", "p_fac": 24},
+{"p_sym": "Z", "p_name": "zetta", "p_fac": 21},
+{"p_sym": "E", "p_name": "exa", "p_fac": 18},
+{"p_sym": "P", "p_name": "peta", "p_fac": 15},
+{"p_sym": "T", "p_name": "tera", "p_fac": 12},
+{"p_sym": "G", "p_name": "giga", "p_fac": 9},
+{"p_sym": "M", "p_name": "mega", "p_fac": 6},
+{"p_sym": "k", "p_name": "kilo", "p_fac": 3},
+{"p_sym": "h", "p_name": "hecto", "p_fac": 2},
+{"p_sym": "da", "p_name": "deka", "p_fac": 1},
+{"p_sym": "d", "p_name": "deci", "p_fac": -1},
+{"p_sym": "c", "p_name": "centi", "p_fac": -2},
+{"p_sym": "m", "p_name": "milli", "p_fac": -3},
+{"p_sym": "u", "p_name": "micro", "p_fac": -6},
+{"p_sym": "n", "p_name": "nano", "p_fac": -9},
+{"p_sym": "p", "p_name": "pico", "p_fac": -12},
+{"p_sym": "f", "p_name": "femto", "p_fac": -15},
+{"p_sym": "a", "p_name": "atto", "p_fac": -18},
+{"p_sym": "z", "p_name": "zepto", "p_fac": -21},
+{"p_sym": "y", "p_name": "yocto", "p_fac": -24}
+]
