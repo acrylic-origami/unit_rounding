@@ -30,7 +30,7 @@ body, html {
 			margin:0.3em 0;
 		}
 			.logo {
-				background-image:url(../img/isometric_white_bordered.png); /* img/logo.svg); */
+				background-image:url(../img/logo.svg); /* img/logo.svg); */
 				background-repeat:no-repeat;
 				background-size:contain;
 				vertical-align:middle;
