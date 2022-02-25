@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = [
   {
-    entry: '/Users/derek-lam/dev/x2585/js-src/index.js',
+    entry: '/home/x2585/x2585/js-src/index.js',
     mode: 'development',
     output: {
       path: path.resolve(__dirname),
@@ -34,9 +34,6 @@ module.exports = [
     },
     resolve: {
       extensions: [ '.tsx', '.ts', '.js' ],
-    },
-    node: {
-      fs: 'empty'
     },
     stats: { warnings: false }
     // plugins: [
