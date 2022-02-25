@@ -127,28 +127,30 @@ export default class extends React.Component {
 			{ this.state.result && 
 				<section id="results">
 					<div id="show_long_units_wrapper"><input type="checkbox" id="toggle_show_long_units" checked={this.state.show_long_units} onChange={this.handleToggleShowLongUnits} /><label htmlFor="toggle_show_long_units">Show long unit names</label></div>
-					<h2>{this.state.result.start} {this.state.result.unit} is:</h2>
-					<ul id="result_list">
-						{ this.state.result.path.map((n, i) =>
-							<li key={i}>
-								<React.Fragment>
-									<span className="result-size">{ (n.fro / n.factor).toFixed(3) }</span>
-									&nbsp;<span className="result-unit">{ n.vto_unit }</span>
-									{ this.state.show_long_units && <span className="result-long-unit">&nbsp;({n.vto_unit_long})</span> }
-									&nbsp;<span className="result-rounding">
-										<span style={{ fontSize: '1.4em' }}>&#10613;</span> {/*&asymp;*/}
-										&nbsp;<span className="result-size">{ Math.round(n.fro / n.factor) }</span>
+					<h2>{this.state.result.start} {this.state.result.unit} is{this.state.result.path.length > 0 ? ':' : ` ${this.state.result.start} ${this.state.result.unit}.`}</h2>
+					{ this.state.result.path.length > 0 && <React.Fragment>
+						<ul id="result_list">
+							{ this.state.result.path.map((n, i) =>
+								<li key={i}>
+									<React.Fragment>
+										<span className="result-size">{ (n.fro / n.factor).toFixed(3) }</span>
 										&nbsp;<span className="result-unit">{ n.vto_unit }</span>
-											&nbsp;<span className="result-aka">
-												(AKA {(Math.round(n.fro / n.factor) * n.factor / this.state.result.unit_factor).toFixed(2)}
-												&nbsp;{this.state.result.unit})
-											</span>
-										{/*&nbsp;<span>, which is</span>*/}
-									</span>
-								</React.Fragment>
-							</li>) }
-					</ul>
-					<h2>&hellip;which is {Math.round(this.state.result.end)} {this.state.result.unit} (up to rounding error)</h2>
+										{ this.state.show_long_units && <span className="result-long-unit">&nbsp;({n.vto_unit_long})</span> }
+										&nbsp;<span className="result-rounding">
+											<span style={{ fontSize: '1.4em' }}>&#10613;</span> {/*&asymp;*/}
+											&nbsp;<span className="result-size">{ Math.round(n.fro / n.factor) }</span>
+											&nbsp;<span className="result-unit">{ n.vto_unit }</span>
+												&nbsp;<span className="result-aka">
+													(AKA {(Math.round(n.fro / n.factor) * n.factor / this.state.result.unit_factor).toFixed(2)}
+													&nbsp;{this.state.result.unit})
+												</span>
+											{/*&nbsp;<span>, which is</span>*/}
+										</span>
+									</React.Fragment>
+								</li>) }
+						</ul>
+						<h2>&hellip;which is {Math.round(this.state.result.end)} {this.state.result.unit} (up to rounding error)</h2>
+					</React.Fragment> }
 				</section>
 			}
 			<section id="usage_notes">
