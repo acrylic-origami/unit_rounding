@@ -3,6 +3,7 @@ import React from 'react';
 export default class extends React.Component {
 	constructor(props) {
 		super(props);
+		this.uri_stash = React.createRef();
 		this.form_ref = React.createRef();
 		this.term_unit_ref = React.createRef();
 		this.term_start_ref = React.createRef();
@@ -27,11 +28,11 @@ export default class extends React.Component {
 		this.term_unit_ref.current.focus();
 		this.handle_uri_term();
 	}
+	
 	handle_uri_term = () => {
 		const U = new URLSearchParams(window.location.search);
 		const terms = ['unit', 'start', 'end'].map(k => U.get(`term_${k}`));
 		const [term_unit, term_start, term_end] = terms;
-		console.log(terms);
 		if(terms.reduce((a, b) => a && b !== null && b !== '', true)) {
 			this.setState({ term_unit, term_start, term_end }, _ => this.onSubmit());
 		}
@@ -55,7 +56,11 @@ export default class extends React.Component {
 			this.setState(({ err }) => err !== null && (err[0] === this_err ? { err: [this_err, true] } : {}));
 			setTimeout(_ => this.setState(({ err }) => err !== null && (err[0] === this_err ? { err: null } : {})), 4000);
 		}
+		if(this.state.copying) {
+			setTimeout(_ => this.setState({ copying: false }), 1000);
+		}
 		if(l.n_request != this.state.n_request) {
+			console.log(l.n_request, this.state.n_request)
 			const n_request_stash = this.state.n_request;
 			const [unit, start, end] = [this.term_unit_ref, this.term_start_ref, this.term_end_ref].map(a => a.current.value
 				.trim()
@@ -72,7 +77,16 @@ export default class extends React.Component {
 	}
 	
 	handleToggleShowUsageNotes = e => this.setState(s => ({ show_usage_notes: !s.show_usage_notes }))
-			
+	
+	copyURI = () => {
+		const past_focus = document.activeElement;
+		this.uri_stash.current.value = window.location.href;
+		this.uri_stash.current.select();
+		document.execCommand('copy');
+		past_focus.focus();
+		this.setState({ copying: true });
+	}
+	
 	render = () => <div>
 		<section id="input_section">
 				<form onSubmit={this.onSubmit} id="term_form" ref={this.form_ref}>
@@ -96,7 +110,7 @@ export default class extends React.Component {
 										<select name="unit_pool">
 											<option value="EXOTIC" key={1} selected={true}>Exotic units</option>
 											<option value="WIKI" key={2}>Wikipedia units</option>
-											<option value="CHEAT" key={3}>Cheating units</option>
+											{/*<option value="CHEAT" key={3}>Cheating units</option>*/}
 										</select>
 									</span>
 									<span className="arrow"></span>
@@ -126,7 +140,6 @@ export default class extends React.Component {
 			}
 			{ this.state.result && 
 				<section id="results">
-					<div id="show_long_units_wrapper"><input type="checkbox" id="toggle_show_long_units" checked={this.state.show_long_units} onChange={this.handleToggleShowLongUnits} /><label htmlFor="toggle_show_long_units">Show long unit names</label></div>
 					<h2>{this.state.result.start} {this.state.result.unit} is{this.state.result.path.length > 0 ? ':' : ` ${this.state.result.start} ${this.state.result.unit}.`}</h2>
 					{ this.state.result.path.length > 0 && <React.Fragment>
 						<ul id="result_list">
@@ -150,6 +163,16 @@ export default class extends React.Component {
 								</li>) }
 						</ul>
 						<h2>&hellip;which is {Math.round(this.state.result.end)} {this.state.result.unit} (up to rounding error)</h2>
+						<ul className="flat-list" id="result_nav">
+							<li id="show_long_units_wrapper"><input type="checkbox" id="toggle_show_long_units" checked={this.state.show_long_units} onChange={this.handleToggleShowLongUnits} /><label htmlFor="toggle_show_long_units">Show long unit names</label></li>
+							<li id="copy_result_wrapper">
+								{ this.state.copying ?
+									"Copied!" :
+									<a onClick={this.copyURI}>Share this result (copy URL)</a>
+								}
+								<input type="text" className="hidden" ref={this.uri_stash} value={window.location.href} onChange={_ => {}} />
+							</li>
+						</ul>
 					</React.Fragment> }
 				</section>
 			}
@@ -166,7 +189,7 @@ export default class extends React.Component {
 					<ol>
 						<li><em>Wikipedia units:</em> Only units directly found in the Wikipedia Conversion Tool can serve as intermediate units.</li>
 						<li><em>Exotic units:</em> All combinations of two units from the Wikipedia Conversion Tool can serve as intermediate units. This greatly improves the hitrate &mdash; the baseline set of units by itself is too sparse to converge much of the time</li>
-						<li><em>Cheating units:</em> Powers of a unitless unit are tacked onto the input term successively until it converges. The results aren't quite as interesting, but this is viable. The intermediate units are still in the same base as the original, just without much physical meaning.</li>
+						{/*<li><em>Cheating units:</em> Powers of a unitless unit are tacked onto the input term successively until it converges. The results aren't quite as interesting, but this is viable. The intermediate units are still in the same base as the original, just without much physical meaning.</li>*/}
 					</ol>
 				</ul>
 			</section>
