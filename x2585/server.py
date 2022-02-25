@@ -15,7 +15,7 @@ import traceback
 app = Flask(__name__)
 MAX_ITERS = 64
 
-SI_0 = { a: 0 for a in 'm,A,cd,s,mol,K,kg'.split(',') }
+SI_0 = { a: 0 for a in 'm,A,cd,s,mol,K,kg,event'.split(',') }
 
 def agg_unit_tree(T, cur):
   SPLIT_CHARS = '/*\u00b7\u00f7'.split()
