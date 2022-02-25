@@ -10,6 +10,9 @@ export default class extends React.Component {
 		
 		this.state = {
 			result: null,
+			term_unit: null,
+			term_start: null,
+			term_end: null,
 			n_request: 0,
 			n_fulfilled: 0,
 			request: null,
@@ -35,6 +38,7 @@ export default class extends React.Component {
 		this.setState(({ n_request }) => ({ n_request: n_request + 1 }));
 		e.preventDefault();
 	}
+	handleInput = (k, e) => this.setState({ [k]: e.target.value });
 	
 	componentDidUpdate(_, l) {
 		if(this.state.err !== null && !this.state.err[1]) {
@@ -61,22 +65,38 @@ export default class extends React.Component {
 	render = () => <div>
 		<section>
 				<form onSubmit={this.onSubmit} id="term_form" ref={this.form_ref}>
-					{[
-						['unit', 'Unit (e.g. mph, gal/min, g*mm2)'],
-						['start', 'Starting number (e.g. 17)'],
-						['end', 'Ending number (e.g. 45)']
-					].map(([name, placeholder], i) => <React.Fragment key={i}>
-						<input key={name} type="text" placeholder={placeholder} id={`term_${name}`} name={`term_${name}`} ref={this[`term_${name}_ref`]} />
-						{ (this.state.n_request > this.state.n_fulfilled) && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div> }
-					</React.Fragment>
-					)}
-					<span className="select-wrapper">
-						<select name="unit_pool">
-							<option value="WIKI" key={1}>Wikipedia units</option>
-							<option value="EXOTIC" key={2}>Exotic units</option>
-							<option value="CHEAT" key={3}>Cheating units</option>
-						</select>
-					</span>
+					{
+						(() => {
+							const formatter = (name, placeholder, props) => 
+									<span className="input-outer-wrapper">
+										<span className="input-inner-wrapper">
+											<input type="text" placeholder={placeholder} id={`term_${name}`} name={`term_${name}`} onChange={e => this.handleInput(`term_${name}`, e)} value={this.state[`term_${name}`] || ''} ref={this[`term_${name}_ref`]} {...props} />
+											{ (this.state.n_request > this.state.n_fulfilled) && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div> }
+										</span>
+										<label htmlFor={`term_${name}`}>{name}</label>
+									</span>;
+							return <ul className="flat-list" id="input_container">
+								<li>
+									{formatter('start', 'Starting # (e.g. 17)')}
+									{formatter('unit', 'Unit (e.g. mph)')}
+								</li>
+								<li id="convert_cell">
+									<span className="select-wrapper">
+										<select name="unit_pool">
+											<option value="EXOTIC" key={1} selected={true}>Exotic units</option>
+											<option value="WIKI" key={2}>Wikipedia units</option>
+											<option value="CHEAT" key={3}>Cheating units</option>
+										</select>
+									</span>
+									<span className="arrow"></span>
+								</li>
+								<li>
+									{formatter('end', 'Ending # (e.g. 45)')}
+									{formatter('unit', 'Unit', { disabled: true, id: 'term_unit_mirror' })}
+								</li>
+							</ul>;
+						})()
+					}
 					<input type="submit" />
 				</form>
 			</section>
@@ -96,17 +116,23 @@ export default class extends React.Component {
 			{ this.state.result && 
 				<section id="results">
 					<h2>{this.state.result.start} {this.state.result.unit} is:</h2>
-					<ul>
+					<ul id="result_list">
 						{ this.state.result.path.map((n, i) =>
 							<li key={i}>
 								<React.Fragment>
-									{ (n.fro / n.factor).toFixed(3) }
-									&nbsp;{ n.vto_unit } ({n.vto_unit_long})
-									&nbsp;rounded to
-									&nbsp;{ Math.round(n.fro / n.factor) }
-									&nbsp;{ n.vto_unit }
-										&nbsp;(AKA {(Math.round(n.fro / n.factor) * n.factor / this.state.result.unit_factor).toFixed(2)}
-										&nbsp;{this.state.result.unit}).
+									<span className="result-size">{ (n.fro / n.factor).toFixed(3) }</span>
+									&nbsp;<span className="result-unit">{ n.vto_unit }</span>
+									&nbsp;<span className="result-long-unit">({n.vto_unit_long})</span>
+									&nbsp;<span className="result-rounding">
+										rounded to
+										&nbsp;<span className="result-size">{ Math.round(n.fro / n.factor) }</span>
+										&nbsp;<span className="result-unit">{ n.vto_unit }</span>
+											&nbsp;<span className="result-aka">
+												(AKA {(Math.round(n.fro / n.factor) * n.factor / this.state.result.unit_factor).toFixed(2)}
+												&nbsp;{this.state.result.unit})
+											</span>
+										{/*&nbsp;<span>, which is</span>*/}
+									</span>
 								</React.Fragment>
 							</li>) }
 					</ul>
