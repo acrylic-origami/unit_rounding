@@ -179,7 +179,7 @@ export default class extends React.Component {
 			<section id="usage_notes">
 				<h2 onClick={this.handleToggleShowUsageNotes}>Usage notes { this.state.show_usage_notes ? <React.Fragment>&#x25BC;</React.Fragment> : <React.Fragment>&#x25c0;</React.Fragment> }</h2>
 				<ul className={ this.state.show_usage_notes ? '' : 'hidden' }>
-					<li><em>Entering units:</em> Any unit symbol available from the <a href="//en.wikipedia.org/wiki/Module:Convert/data">Wikipedia Conversion Tool</a> can be used, which includes most of the conventional and many unconventional units.</li>
+					<li><em>Entering units:</em> Any unit symbol available from the <a href="//en.wikipedia.org/wiki/Module:Convert/data">Wikipedia Conversion Tool</a> can be used, which includes most of the conventional and many unconventional units. They are case sensitive.</li>
 					<ul>
 						<li>Units can be multiplied by separating with spaces, *, or &middot;. Units can be divided by separating with / or &#247;.</li>
 						<li>Units can be bracketed, e.g. <code>km/(gal/day) * A</code></li>

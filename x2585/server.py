@@ -33,8 +33,9 @@ def agg_unit_tree(T, cur):
           exp = -1
       else:
         if tok != '':
-          cur.execute('SELECT * FROM units WHERE name = %s LIMIT 1', (tok,))
+          cur.execute('SELECT * FROM units WHERE pool = \'WIKI\' AND name = %s LIMIT 1', (tok,))
           d = cur.fetchone()
+            
           if d != None:
             unit_factor *= d['factor'] ** exp
             long_units.append((d['long_name'], exp))
