@@ -139,7 +139,7 @@ section {
 		font-weight:bold;
 	}
 	
-	#term_form input[type='text'] {
+	#term_form input[type='text'], #term_form input[type='number'] {
 		border:none;
 		outline:none;
 		appearance:none;
@@ -160,7 +160,7 @@ section {
 		font-weight:bold;
 	}
 	
-	#term_form input[type='text']:focus {
+	#term_form input[type='text']:focus, #term_form input[type='number']:focus {
 		border-bottom:#000 solid 2px;
 	}
 	

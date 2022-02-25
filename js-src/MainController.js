@@ -14,6 +14,7 @@ export default class extends React.Component {
 			term_unit: null,
 			term_start: null,
 			term_end: null,
+			unit_pool: 'EXOTIC',
 			n_request: 0,
 			n_fulfilled: 0,
 			request: null,
@@ -34,12 +35,12 @@ export default class extends React.Component {
 		const terms = ['unit', 'start', 'end'].map(k => U.get(`term_${k}`));
 		const [term_unit, term_start, term_end] = terms;
 		if(terms.reduce((a, b) => a && b !== null && b !== '', true)) {
-			this.setState({ term_unit, term_start, term_end }, _ => this.onSubmit());
+			this.setState({ term_unit, term_start, term_end, unit_pool: U.get('unit_pool') || 'EXOTIC' }, _ => this.onSubmit());
 		}
 	}
 	
 	onSubmit = e => {
-		history.pushState({}, `search`, '?' + ['unit', 'start', 'end'].map(a => `term_${a}=${encodeURI(this[`term_${a}_ref`].current.value)}`).join('&'));
+		history.pushState({}, `search`, '?' + ['unit', 'start', 'end'].map(a => `term_${a}=${encodeURI(this[`term_${a}_ref`].current.value)}`).join('&') + '&unit_pool=' + encodeURI(this.state.unit_pool));
 		this.setState(({ n_request }) => ({ n_request: n_request + 1 }));
 		if(e !== undefined) {
 			e.preventDefault();
@@ -49,6 +50,7 @@ export default class extends React.Component {
 	}
 	handleInput = (k, e) => this.setState({ [k]: e.target.value });
 	handleToggleShowLongUnits = e => this.setState({ show_long_units: e.target.checked })
+	handleChangeUnitPool = e => this.setState({ unit_pool: e.target.value })
 	
 	componentDidUpdate(_, l) {
 		if(this.state.err !== null && !this.state.err[1]) {
@@ -102,13 +104,13 @@ export default class extends React.Component {
 									</span>;
 							return <ul className="flat-list" id="input_container">
 								<li>
-									{formatter('start', 'Starting # (e.g. 17)')}
+									{formatter('start', 'Starting # (e.g. 17)', { type: 'number' })}
 									{formatter('unit', 'Unit (e.g. mph)')}
 								</li>
 								<li id="convert_cell">
 									<span className="select-wrapper">
-										<select name="unit_pool">
-											<option value="EXOTIC" key={1} selected={true}>Exotic units</option>
+										<select name="unit_pool" value={ this.state.unit_pool } onChange={ this.handleChangeUnitPool }>
+											<option value="EXOTIC" key={1}>Exotic units</option>
 											<option value="WIKI" key={2}>Wikipedia units</option>
 											{/*<option value="CHEAT" key={3}>Cheating units</option>*/}
 										</select>
@@ -116,7 +118,7 @@ export default class extends React.Component {
 									<span className="arrow"></span>
 								</li>
 								<li>
-									{formatter('end', 'Ending # (e.g. 45)')}
+									{formatter('end', 'Ending # (e.g. 45)', { type: 'number' })}
 									{formatter('unit', 'Unit', { disabled: true, id: 'term_unit_mirror' })}
 								</li>
 							</ul>;

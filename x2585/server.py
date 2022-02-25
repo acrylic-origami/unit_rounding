@@ -13,7 +13,7 @@ from pyparsing import nestedExpr
 import traceback
 
 app = Flask(__name__)
-MAX_ITERS = 128
+MAX_ITERS = 64
 
 SI_0 = { a: 0 for a in 'm,A,cd,s,mol,K,kg'.split(',') }
 
@@ -75,7 +75,7 @@ def solve():
     try:
       unit_tree = nestedExpr('(', ')').parseString('(%s)' % request.form['term_unit']).asList()
       unit_factor, unit, long_units, _ = agg_unit_tree(unit_tree, cur)
-      print(unit_factor, unit)
+      # print(unit_factor, unit)
     except Exception as e:
       traceback.print_exc()
       return { 'err': str(e) }, 400
@@ -93,8 +93,16 @@ def solve():
       #       return { 'err': 'Unit %s was not recognized.' % a }, 400
     
     try:
-      fro = float(request.form['term_start']) * unit_factor
-      to = float(request.form['term_end']) * unit_factor
+      fro = (float(request.form['term_start'])) * unit_factor
+      to = round(float(request.form['term_end'])) * unit_factor
+
+      '''
+      if abs(fro - round(fro)) > EPS or abs(to - round(to)) > EPS:
+          return { 'err': '' }
+      fro *= unit_factor
+      to *= unit_factor
+      '''
+
     except ValueError:
       return { 'err': 'Start and/or end values "%s" and "%s" are invalid: must be numeric.' % (request.form['term_start'], request.form['term_end']) }, 400
     
@@ -117,7 +125,7 @@ def solve():
         
       row['fro'] = fro
       path.append(row)
-      print(row)
+      # print(row)
       
       fro = round(fro / row['factor']) * row['factor'] # row['vto'] / row['factor']
       
