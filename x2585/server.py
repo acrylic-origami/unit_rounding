@@ -62,6 +62,14 @@ def pp_unit(U):
   U = dict(U)
   return ' '.join([ ('%s^%d' % u if u[1] != 1 else u[0]) for u in U.items() if u[1] != 0])
 
+@app.route('/end/common_units', methods=['GET'])
+def fetch_common_units():
+  with pg.connect('dbname=x2585 ' + creds) as conn:
+    cur = conn.cursor(cursor_factory=pg_extras.RealDictCursor)
+    
+    cur.execute('SELECT MAX(u.long_name) AS long_name, MAX(u.name) AS name FROM units u INNER JOIN common_units cu ON cu.long_name = u.long_name WHERE u.pool=\'WIKI\' GROUP BY u.long_name, u.name;')
+    return { 'common_units': sorted(cur.fetchall(), key=lambda x: x['long_name']) }
+
 @app.route('/end/q', methods=['POST'])
 def solve():
   with pg.connect('dbname=x2585 ' + creds) as conn:

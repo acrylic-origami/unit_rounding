@@ -112,14 +112,6 @@ section {
 			display:inline-block;
 		}
 	
-	#term_form > input[type="submit"] {
-		position:absolute;
-		left:-9999px;
-		top:-9999px;
-		opacity:0.01;
-		visibility:hidden;
-		z-index:-1;
-	}
 	
 	#term_unit_mirror {
 		opacity:0.4;
@@ -139,7 +131,7 @@ section {
 		font-weight:bold;
 	}
 	
-	#term_form input[type='text'], #term_form input[type='number'] {
+	#term_form input {
 		border:none;
 		outline:none;
 		appearance:none;
@@ -160,8 +152,75 @@ section {
 		font-weight:bold;
 	}
 	
-	#term_form input[type='text']:focus, #term_form input[type='number']:focus {
+	#term_form input:focus {
 		border-bottom:#000 solid 2px;
+	}
+	
+	#unit_wrapper > div > div::before {
+		content: 'Common units:';
+		text-transform:uppercase;
+		color:#333;
+		font-weight:bold;
+		font-family:Inconsolata;
+		padding:1.2em 1.2em 0.6em 1.2em;
+		display:block;
+	}
+	#unit_wrapper > div > div {
+		z-index:100;
+		max-height:20em;
+		overflow-y:scroll;
+	}
+	
+	.unit-autocomplete-item {
+		padding:0.6em 1.2em;
+		font-size:0.9em;
+		color:#777;
+		cursor:pointer;
+	}
+		.unit-autocomplete-short-name {
+			font-style:italic;
+			color:#AAA;
+		}
+	/*.unit-autocomplete-item:first-child {
+		padding-top:1.2em
+	}
+	.unit-autocomplete-item:last-child {
+		padding-bottom:1.2em
+	}*/
+	.unit-autocomplete-item.focused {
+		background-color:#EEE;
+		color:#333;
+	}
+	
+	#term_form input[type="submit"]:active {
+		border:#222 solid 1px;
+		color:#222;
+		background-color:#EEE;
+	}
+	#term_form input[type="submit"]:hover {
+		border:#333 solid 1px;
+		color:#333;
+	}
+	#term_form input[type="submit"] {
+		/*position:absolute;
+		left:-9999px;
+		top:-9999px;
+		opacity:0.01;
+		visibility:hidden;
+		z-index:-1;*/
+		
+		padding:1em;
+		border:none;
+		outline:none;
+		background:none;
+		border:#AAA solid 1px;
+		color:#AAA;
+		font-size:0.9em;
+		display:inline-block;
+		vertical-align:middle;
+		cursor:pointer;
+		font-family:Inconsolata;
+		text-transform:uppercase;
 	}
 	
 .hidden {
@@ -371,5 +430,8 @@ ul.unit-list, #breakdown_selector {
 		content:"↓";
 		font-size:2em;
 		margin:0 1em;
+	}
+	#term_form input[type="submit"] {
+		margin-top:1.5em;
 	}
 }

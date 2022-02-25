@@ -1,4 +1,5 @@
 import React from 'react';
+import Autocomplete from 'react-autocomplete';
 
 export default class extends React.Component {
 	constructor(props) {
@@ -22,12 +23,15 @@ export default class extends React.Component {
 			copying: false,
 			show_long_units: true,
 			show_usage_notes: false,
+			common_units: []
 		};
 		window.addEventListener('popstate', this.handle_uri_term);
 	}
 	componentDidMount() {
 		this.term_unit_ref.current.focus();
 		this.handle_uri_term();
+		
+		fetch('/end/common_units', { method: 'GET' }).then(v => v.json()).then(({ common_units }) => this.setState({ common_units }))
 	}
 	
 	handle_uri_term = () => {
@@ -89,6 +93,8 @@ export default class extends React.Component {
 		this.setState({ copying: true });
 	}
 	
+	handleChangeUnit = term_unit => this.setState({ term_unit })
+	
 	render = () => <div>
 		<section id="input_section">
 				<form onSubmit={this.onSubmit} id="term_form" ref={this.form_ref}>
@@ -105,7 +111,35 @@ export default class extends React.Component {
 							return <ul className="flat-list" id="input_container">
 								<li>
 									{formatter('start', 'Starting # (e.g. 17)', { type: 'number' })}
-									{formatter('unit', 'Unit (e.g. mph)')}
+									{/*{formatter('unit', 'Unit (e.g. mph)')}
+								
+									 	// type="text"
+									  // className="unit-box"
+									  // id="unit_box"*/}
+									<span id="unit_wrapper">
+										<Autocomplete
+											getItemValue={({ name }) => name}
+										  items={this.state.common_units}
+										  renderItem={(item, isHighlighted) =>
+										    <div key={item['name']} className={ `unit-autocomplete-item ${isHighlighted ? 'focused' : ''}` }>
+										      <span className="unit-autocomplete-long-name">{item['long_name']}</span>
+										      &nbsp;<span className='unit-autocomplete-short-name'>({item['name']})</span>
+										    </div>
+										  }
+										  shouldItemRender={(item, value) => value.length > 0 && (item['long_name'].toLowerCase().indexOf(value.toLowerCase()) > -1 || item['name'].toLowerCase().indexOf(value.toLowerCase()) > -1)}
+										  inputProps={{
+										  	type: 'text',
+										  	name: 'term_unit',
+										  	id: 'term_unit',
+										  	placeholder: 'Unit (e.g. mph)'
+										  }}
+										  placeholder="ASDF"
+										  value={this.state.term_unit || ''}
+										  onChange={e => this.handleInput(`term_unit`, e)}
+										  onSelect={v => this.handleInput(`term_unit`, { target: { value: v } })}
+										/>
+										<label htmlFor={`term_unit`}>unit</label>
+									</span>
 								</li>
 								<li id="convert_cell">
 									<span className="select-wrapper">
@@ -121,10 +155,12 @@ export default class extends React.Component {
 									{formatter('end', 'Ending # (e.g. 45)', { type: 'number' })}
 									{formatter('unit', 'Unit', { disabled: true, id: 'term_unit_mirror' })}
 								</li>
+								<li>
+									<input type="submit" value="Submit" />
+								</li>
 							</ul>;
 						})()
 					}
-					<input type="submit" />
 				</form>
 			</section>
 			{ this.state.result != null
