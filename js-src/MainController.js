@@ -85,11 +85,14 @@ export default class extends React.Component {
 	handleToggleShowUsageNotes = e => this.setState(s => ({ show_usage_notes: !s.show_usage_notes }))
 	
 	copyURI = () => {
-		const past_focus = document.activeElement;
-		this.uri_stash.current.value = window.location.href;
-		this.uri_stash.current.select();
-		document.execCommand('copy');
-		past_focus.focus();
+		navigator.clipboard.writeText(window.location.href);
+		
+		// const past_focus = document.activeElement;
+		// this.uri_stash.current.value = window.location.href;
+		// this.uri_stash.current.select();
+		// document.execCommand('copy');
+		// past_focus.focus();
+		
 		this.setState({ copying: true });
 	}
 	
@@ -152,7 +155,7 @@ export default class extends React.Component {
 									<span className="arrow"></span>
 								</li>
 								<li>
-									{formatter('end', 'Ending # (e.g. 45)', { type: 'number' })}
+									{formatter('end', 'Ending # (e.g. 45)', { type: 'number', step: '1' })}
 									{formatter('unit', 'Unit', { disabled: true, id: 'term_unit_mirror' })}
 								</li>
 								<li>
@@ -178,7 +181,7 @@ export default class extends React.Component {
 			}
 			{ this.state.result && 
 				<section id="results">
-					<h2>{this.state.result.start} {this.state.result.unit} is{this.state.result.path.length > 0 ? ':' : ` ${this.state.result.start} ${this.state.result.unit}.`}</h2>
+					<h2>{this.state.result.start} {this.state.result.unit} is{this.state.result.path.length > 0 ? ':' : ` ${Math.round(this.state.result.end)} ${this.state.result.unit}.`}</h2>
 					{ this.state.result.path.length > 0 && <React.Fragment>
 						<ul id="result_list">
 							{ this.state.result.path.map((n, i) =>
