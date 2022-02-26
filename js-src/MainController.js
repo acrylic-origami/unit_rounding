@@ -1,6 +1,10 @@
 import React from 'react';
 import Autocomplete from 'react-autocomplete';
 
+function is_feet_and_inches(s) {
+	return s !== null && s.trim().match(/^\d+\s*'\s*\d+\s*"?\s*$/);
+}
+
 export default class extends React.Component {
 	constructor(props) {
 		super(props);
@@ -44,7 +48,9 @@ export default class extends React.Component {
 	}
 	
 	onSubmit = e => {
-		history.pushState({}, `search`, '?' + ['unit', 'start', 'end'].map(a => `term_${a}=${encodeURI(this[`term_${a}_ref`].current.value)}`).join('&') + '&unit_pool=' + encodeURI(this.state.unit_pool));
+		const vs = ['unit', 'start', 'end'].map(a => [`term_${a}`, this[`term_${a}_ref`].current.value]).concat([['unit_pool', this.state.unit_pool]]);
+		const S = (new URLSearchParams(vs)).toString();
+		history.pushState({}, `search`, '?' + S);
 		this.setState(({ n_request }) => ({ n_request: n_request + 1 }));
 		if(e !== undefined) {
 			e.preventDefault();
@@ -66,18 +72,13 @@ export default class extends React.Component {
 			setTimeout(_ => this.setState({ copying: false }), 1000);
 		}
 		if(l.n_request != this.state.n_request) {
-			console.log(l.n_request, this.state.n_request)
 			const n_request_stash = this.state.n_request;
-			const [unit, start, end] = [this.term_unit_ref, this.term_start_ref, this.term_end_ref].map(a => a.current.value
-				.trim()
-				.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
-				
 			const fail = e => {
 				console.log(e);
 				this.setState(s => (n_request_stash === s.n_request) && { err: [e.message, false], n_fulfilled: n_request_stash });
 			}
 			fetch(`/end/q`, { method: 'POST', body: new FormData(this.form_ref.current) })
-				.then(r => r.json().then(j => { if(r.ok) return j; else throw new Error(j.err); }))
+				.then(r => r.json().then(j => { if(r.ok && !Object.hasOwnProperty(j, 'err')) return j; else throw new Error(j.err); }))
 				.then(r => this.setState(s => (n_request_stash === s.n_request) && { result: r, n_fulfilled: n_request_stash }), fail);
 		}
 	}
@@ -113,7 +114,7 @@ export default class extends React.Component {
 									</span>;
 							return <ul className="flat-list" id="input_container">
 								<li>
-									{formatter('start', 'Starting # (e.g. 17)', { type: 'number' })}
+									{formatter('start', 'Starting # (e.g. 17)')}
 									{/*{formatter('unit', 'Unit (e.g. mph)')}
 								
 									 	// type="text"
@@ -134,10 +135,11 @@ export default class extends React.Component {
 										  	type: 'text',
 										  	name: 'term_unit',
 										  	id: 'term_unit',
-										  	placeholder: 'Unit (e.g. mph)'
+										  	placeholder: 'Unit (e.g. mph)',
+										  	...((is_feet_and_inches(this.state.term_start) || is_feet_and_inches(this.state.term_end)) ? { disabled: 1, style: { opacity: 0.4 } } : {})
 										  }}
 										  placeholder="ASDF"
-										  value={this.state.term_unit || ''}
+										  value={(is_feet_and_inches(this.state.term_start) || is_feet_and_inches(this.state.term_end)) ? 'feet & inches' : (this.state.term_unit || '')}
 										  onChange={e => this.handleInput(`term_unit`, e)}
 										  onSelect={v => this.handleInput(`term_unit`, { target: { value: v } })}
 										/>
@@ -155,8 +157,8 @@ export default class extends React.Component {
 									<span className="arrow"></span>
 								</li>
 								<li>
-									{formatter('end', 'Ending # (e.g. 45)', { type: 'number', step: '1' })}
-									{formatter('unit', 'Unit', { disabled: true, id: 'term_unit_mirror' })}
+									{formatter('end', 'Ending # (e.g. 45)') /* , { type: 'number', step: '1' } */}
+									{formatter('unit', 'Unit', { disabled: true, id: 'term_unit_mirror', value: (is_feet_and_inches(this.state.term_start) || is_feet_and_inches(this.state.term_end)) ? 'feet & inches' : (this.state.term_unit || '') })}
 								</li>
 								<li>
 									<input type="submit" value="Submit" />
@@ -181,7 +183,7 @@ export default class extends React.Component {
 			}
 			{ this.state.result && 
 				<section id="results">
-					<h2>{this.state.result.start} {this.state.result.unit} is{this.state.result.path.length > 0 ? ':' : ` ${Math.round(this.state.result.end)} ${this.state.result.unit}.`}</h2>
+					<h2>{this.state.result.start} {!this.state.result.is_feet_and_inches && this.state.result.unit} is{this.state.result.path.length > 0 ? ':' : ` ${this.state.result.end} ${!this.state.result.is_feet_and_inches && this.state.result.unit} (up to rounding error).`}</h2>
 					{ this.state.result.path.length > 0 && <React.Fragment>
 						<ul id="result_list">
 							{ this.state.result.path.map((n, i) =>
@@ -203,7 +205,7 @@ export default class extends React.Component {
 									</React.Fragment>
 								</li>) }
 						</ul>
-						<h2>&hellip;which is {Math.round(this.state.result.end)} {this.state.result.unit} (up to rounding error)</h2>
+						<h2>&hellip;which is {this.state.result.end} {!this.state.result.is_feet_and_inches && this.state.result.unit} (up to rounding error)</h2>
 						<ul className="flat-list" id="result_nav">
 							<li id="show_long_units_wrapper"><input type="checkbox" id="toggle_show_long_units" checked={this.state.show_long_units} onChange={this.handleToggleShowLongUnits} /><label htmlFor="toggle_show_long_units">Show long unit names</label></li>
 							<li id="copy_result_wrapper">
@@ -225,6 +227,7 @@ export default class extends React.Component {
 						<li>Units can be multiplied by separating with spaces, *, or &middot;. Units can be divided by separating with / or &#247;.</li>
 						<li>Units can be bracketed, e.g. <code>km/(gal/day) * A</code></li>
 						<li>Where names conflict or aren't found, try spelling out the whole name, or fall back to SI units (s,kg,m,K,A,cd,mol)</li>
+						<li>US height units in feet and inches (e.g. 5'11") are allowed as a special case and can be entered in the "START" and "END" boxes. Both must be in feet and inches form.</li>
 					</ul>
 					<li><em>Intermediate units:</em> A few unit sets are available to use for rounding:</li>
 					<ol>

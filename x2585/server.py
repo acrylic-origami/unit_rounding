@@ -17,6 +17,13 @@ MAX_ITERS = 64
 
 SI_0 = { a: 0 for a in 'm,A,cd,s,mol,K,kg,event'.split(',') }
 
+def feet_and_inches(s):
+  r = re.match(r'^(\d+)\s*\'\s*(\d+)\s*"?\s*$', s.strip())
+  if r != None:
+    r = sum([int(a) * b for a, b in zip(r.groups(), [12, 1])])
+    
+  return r
+  
 def agg_unit_tree(T, cur):
   SPLIT_CHARS = '/*\u00b7\u00f7'.split()
   unit_factor = 1.0
@@ -79,14 +86,6 @@ def solve():
     # unit_factor = 1.0
     unit_name = '' # TODO
     unit_sym = '' # TODO
-    
-    try:
-      unit_tree = nestedExpr('(', ')').parseString('(%s)' % request.form['term_unit']).asList()
-      unit_factor, unit, long_units, _ = agg_unit_tree(unit_tree, cur)
-      # print(unit_factor, unit)
-    except Exception as e:
-      traceback.print_exc()
-      return { 'err': str(e) }, 400
       
       # unit_split = re.split(r'\W', request.form['term_unit']) # TODO: need more sophisticated parsing for math
       # for a in unit_split:
@@ -100,19 +99,38 @@ def solve():
       #     else:
       #       return { 'err': 'Unit %s was not recognized.' % a }, 400
     
+    as_inches = [feet_and_inches(request.form[a]) for a in ['term_start', 'term_end']]
+    is_feet_and_inches = [ a != None for a in as_inches ] # guard against a == 0 false negatives
+    if any(is_feet_and_inches):
+      if not all(is_feet_and_inches):
+        return { 'err': 'If one term is in feet & inches (e.g. 6\'1"), both must be.' }, 400
+      fro, to = as_inches
+      raw_unit = 'in'
+    else:
+      try:
+        fro = (float(request.form['term_start']))
+        to = round(float(request.form['term_end']))
+        raw_unit = request.form['term_unit']
+
+        '''
+        if abs(fro - round(fro)) > EPS or abs(to - round(to)) > EPS:
+            return { 'err': '' }
+        fro *= unit_factor
+        to *= unit_factor
+        '''
+      except ValueError:
+        return { 'err': 'Start and/or end values "%s" and "%s" are invalid: must be numeric.' % (request.form['term_start'], request.form['term_end']) }, 400
+    
     try:
-      fro = (float(request.form['term_start'])) * unit_factor
-      to = round(float(request.form['term_end'])) * unit_factor
-
-      '''
-      if abs(fro - round(fro)) > EPS or abs(to - round(to)) > EPS:
-          return { 'err': '' }
-      fro *= unit_factor
-      to *= unit_factor
-      '''
-
-    except ValueError:
-      return { 'err': 'Start and/or end values "%s" and "%s" are invalid: must be numeric.' % (request.form['term_start'], request.form['term_end']) }, 400
+      unit_tree = nestedExpr('(', ')').parseString('(%s)' % raw_unit).asList()
+      unit_factor, unit, long_units, _ = agg_unit_tree(unit_tree, cur)
+      # print(unit_factor, unit)
+    except Exception as e:
+      traceback.print_exc()
+      return { 'err': str(e) }, 400
+      
+    fro *= unit_factor
+    to *= unit_factor
     
     if (to == 0 or fro == 0) and to != fro:
       return { 'err': 'Impossible to solve when exactly one input is 0.' }, 400
@@ -141,4 +159,4 @@ def solve():
         return { 'err': 'Too hard to fudge, failed to solve in %d iterations.' % MAX_ITERS }, 400
       iters += 1
       
-    return { 'start': request.form['term_start'], 'end': fro / unit_factor, 'unit': request.form['term_unit'], 'unit_factor': unit_factor, 'path': path } # TODO use something better than the raw request, and don't do the conversion to final here
+    return { 'start': request.form['term_start'], 'end': request.form['term_end'], 'unit': raw_unit, 'is_feet_and_inches': any(is_feet_and_inches), 'unit_factor': unit_factor, 'path': path } # TODO use something better than the raw request, and don't do the conversion to final here
